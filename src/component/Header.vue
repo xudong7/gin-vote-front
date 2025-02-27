@@ -4,6 +4,12 @@
       <h1 class="title">My App</h1>
     </div>
     <nav>
+      <div v-if="!token">
+        <router-link to="/register">Register</router-link>
+      </div>
+      <div v-if="!token">
+        <router-link to="/login">Login</router-link>
+      </div>
       <router-link to="/admin">Admin</router-link>
       <router-link to="/">User</router-link>
     </nav>
@@ -11,6 +17,9 @@
 </template>
 
 <script setup>
+import { ref } from "vue";
+
+const token = ref(localStorage.getItem("token"));
 </script>
 
 <style scoped>

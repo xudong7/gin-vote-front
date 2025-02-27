@@ -14,8 +14,9 @@
           <div
             class="option"
             v-for="option in form.optionList"
-            :key="option.id"
+            :key="option.ID"
           >
+            <span>{{ optionName[option.ID] }}</span>
             <span>{{ option.content }}</span>
           </div>
         </div>
@@ -38,6 +39,14 @@ import { getPollData } from "../api/form";
 const router = useRouter();
 const forms = ref([]);
 const loading = ref(true);
+const optionName = {
+  1: "A. ",
+  2: "B. ",
+  3: "C. ",
+  4: "D. ",
+  5: "E. ",
+  6: "F. ",
+}
 
 // 获取所有表单数据
 const fetchForms = async () => {

@@ -158,6 +158,7 @@ const submitForm = async () => {
   const pollData = {
     title: theme.value,
     type: selectedType.value,
+    status: 1,
     optionList: optionList.value.map((text, index) => ({
       parentId: 0,
       content: text,

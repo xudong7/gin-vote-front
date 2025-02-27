@@ -9,6 +9,16 @@ const router = new createRouter({
             component: () => import("../view/UserView.vue"),
         },
         {
+            path: "/register",
+            name: "Register",
+            component: () => import("../view/RegisterView.vue"),
+        },
+        {
+            path: "/login",
+            name: "Login",
+            component: () => import("../view/LoginView.vue"),
+        },
+        {
             path: "/admin",
             name: "Admin",
             component: () => import("../view/AdminView.vue"),
@@ -19,18 +29,11 @@ const router = new createRouter({
             component: () => import("../view/NewFormView.vue"),
         },
         {
-            path: "/auth",
-            name: "Auth",
-            component: () => import("../view/AuthView.vue"),
+            path: "/form/:id",
+            name: "Form",
+            component: () => import("../view/FormView.vue"),
         }
     ],
-});
-
-router.beforeEach((to, from, next) => {
-    if (to.name === "Admin" && !localStorage.getItem("auth")) {
-        next({ name: "Auth" });
-    }
-    next();
 });
 
 export default router;

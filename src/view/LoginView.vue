@@ -1,6 +1,6 @@
 <template>
   <div class="auth-container">
-    <h1>验证身份</h1>
+    <h1>登录</h1>
     <div class="form-group">
       <input
         type="text"
@@ -27,6 +27,7 @@
 <script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
+import { authLogin } from "../api/auth";
 
 const router = useRouter();
 const username = ref("");
@@ -44,32 +45,30 @@ const login = async () => {
   errorMsg.value = "";
 
   // 发送登录请求到后端API
-  // const response = await axios.post("/api/auth/login", {
-  //   username: username.value,
-  //   password: password.value,
-  // });
-  const response = {
-    data: {
-      token: "fake-token",
-      user: {
-        id: 1,
-        username: "admin",
-        role: "admin",
-      },
-    },
-  };
+  const response = await authLogin({
+    username: username.value,
+    password: password.value,
+    role: "user",
+    formList: [],
+  })
 
   // 处理登录成功
+  console.log("登录成功:", response.data);
   if (response.data && response.data.token) {
     // 保存认证信息
-    localStorage.setItem("auth", response.data.token);
-    localStorage.setItem("user", JSON.stringify(response.data.user));
+    localStorage.setItem("token", response.data.token);
+    localStorage.setItem("role", JSON.stringify(response.data.role));
   } else {
     errorMsg.value = "登录失败，请检查响应数据";
   }
 
   isLoading.value = false;
-  router.push("/admin");
+  const authRole = response.data.role;
+  if (authRole === "admin") {
+    router.push("/admin");
+  } else {
+    router.push("/");
+  }
 };
 </script>
 
