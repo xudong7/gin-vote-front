@@ -29,6 +29,11 @@ const router = new createRouter({
             component: () => import("../view/NewFormView.vue"),
         },
         {
+            path: "/admin/form/:id",
+            name: "AdminForm",
+            component: () => import("../view/FixFormView.vue"),
+        },
+        {
             path: "/form/:id",
             name: "Form",
             component: () => import("../view/FormView.vue"),

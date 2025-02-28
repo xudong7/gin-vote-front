@@ -7,24 +7,24 @@
     <div class="poll-list">
       <div v-if="loading" class="loading">加载中...</div>
       <div v-else-if="forms.length === 0" class="no-data">暂无投票数据</div>
-      <div class="poll-item" v-for="form in forms" :key="form.id">
+      <div class="poll-item" v-for="form in forms" :key="form.ID">
         <h2>{{ form.title }}</h2>
         <p>类型: {{ form.type === 1 ? "单选" : "多选" }}</p>
         <div class="poll-options">
           <div
             class="option"
-            v-for="option in form.optionList"
+            v-for="(option, index) in form.optionList"
             :key="option.ID"
           >
-            <span>{{ optionName[option.ID] }}</span>
+            <span>{{ optionName[index + 1] }}</span>
             <span>{{ option.content }}</span>
           </div>
         </div>
         <div class="actions">
-          <button @click="viewDetail(form.id)" class="view-btn">
+          <button @click="viewDetail(form.ID)" class="view-btn">
             查看详情
           </button>
-          <button @click="deletePoll(form.id)" class="delete-btn">删除</button>
+          <button @click="deletePoll(form.ID)" class="delete-btn">删除</button>
         </div>
       </div>
     </div>
@@ -34,7 +34,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
-import { getPollData } from "../api/form";
+import { getPollData, deletePollDataById } from "../api/form";
 
 const router = useRouter();
 const forms = ref([]);
@@ -77,7 +77,9 @@ const deletePoll = async (id) => {
   if (confirm("确定要删除这个投票吗？")) {
     try {
       console.log("删除表单:", id);
-      // await deleteForm(id);
+      
+      await deletePollDataById(id);
+
       // 删除成功后重新加载数据
       fetchForms();
     } catch (error) {

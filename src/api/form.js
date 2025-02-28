@@ -35,3 +35,28 @@ export function getPollDataById(id) {
     method: "get",
   });
 }
+
+/**
+ * 删除表单数据
+ * @param
+ * @returns {*}
+*/
+export function deletePollDataById(id) {
+  return request({
+    url: `/forms/${id}`,
+    method: "delete",
+  });
+}
+
+/**
+ * 更新表单数据
+ * @param
+ * @returns {*}
+*/
+export function updatePollData(id, data) {
+  return request({
+    url: `/forms/${id}`,
+    method: "put",
+    data,
+  });
+}

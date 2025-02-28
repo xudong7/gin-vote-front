@@ -10,14 +10,16 @@
         <div class="poll-options">
           <div
             class="option"
-            v-for="option in form.optionList"
+            v-for="(option, index) in form.optionList"
             :key="option.ID"
           >
-            <span>{{ optionName[option.ID] }}</span>
+            <span>{{ optionName[index + 1] }}</span>
             <span>{{ option.content }}</span>
           </div>
         </div>
-        <button>提交</button>
+        <input type="text" v-model="answer" placeholder="请输入答案" />
+        <button @click="submit(answer)">提交</button>
+        <button @click="returnToPreviousPage">返回</button>
       </div>
     </div>
   </div>
@@ -25,11 +27,12 @@
 
 <script setup>
 // 获得url中的id参数
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { ref, onMounted } from "vue";
-import { getPollDataById } from "../api/form";
+import { getPollDataById, updatePollData } from "../api/form";
 
 const route = useRoute();
+const router = useRouter();
 const formId = ref(route.params.id);
 const form = ref({});
 const loading = ref(true);
@@ -54,6 +57,34 @@ const fetchForm = async () => {
   } finally {
     loading.value = false;
   }
+};
+
+const returnToPreviousPage = () => {
+  router.go(-1);
+};
+
+const submit = async (answerCh) => {
+  console.log("提交答案:", answerCh);
+
+  // 找到answerCh对应index的选项
+  const option = form.value.optionList.find(
+    (item, index) => optionName[index + 1] === answerCh + ". "
+  );
+
+  console.log("选项:", option);
+  // 修改选项的投票数
+  option.votes += 1;
+
+  form.value.optionList = form.value.optionList.map((item) =>
+    item.ID === option.ID ? option : item
+  );
+
+  console.log(form.value);
+
+  // 提交数据
+  await updatePollData(form.value.ID, form.value);
+
+  returnToPreviousPage();
 };
 
 // 组件挂载时获取数据
