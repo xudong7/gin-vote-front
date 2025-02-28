@@ -24,6 +24,7 @@
           <button @click="viewDetail(form.ID)" class="view-btn">
             查看详情
           </button>
+          <button @click="viewChart(form.ID)" class="chart-btn">查看图表</button>
           <button @click="deletePoll(form.ID)" class="delete-btn">删除</button>
         </div>
       </div>
@@ -70,6 +71,11 @@ const createNewPoll = () => {
 // 查看表单详情
 const viewDetail = (id) => {
   router.push(`/admin/form/${id}`);
+};
+
+// 查看图表
+const viewChart = (id) => {
+  router.push(`/form/display/${id}`);
 };
 
 // 删除表单

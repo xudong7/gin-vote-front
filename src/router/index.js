@@ -37,6 +37,11 @@ const router = new createRouter({
             path: "/form/:id",
             name: "Form",
             component: () => import("../view/FormView.vue"),
+        },
+        {
+            path: "/form/display/:id",
+            name: "Display",
+            component: () => import("../view/DisplayView.vue"),
         }
     ],
 });
