@@ -46,4 +46,25 @@ const router = new createRouter({
     ],
 });
 
+// 路由守护admin页面
+router.beforeEach((to, from, next) => {
+    const token = localStorage.getItem("token");
+    const role = localStorage.getItem("role");
+
+    console.log("Current token:", token);
+    console.log("Current role:", role);
+    console.log("Route:", to.path);
+    
+    // 检查是否是管理员路由/admin/*和/form/display/*
+    const isAdminRoute = to.path.startsWith('/admin');
+    const isFormDisplayRoute = to.path.startsWith('/form/display');
+    
+    if ((isAdminRoute || isFormDisplayRoute) && (!token || role !== "admin")) {
+        alert("您无权访问该页面");
+        next({ name: "User" });
+    } else {
+        next();
+    }
+});
+
 export default router;

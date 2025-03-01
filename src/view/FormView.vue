@@ -13,7 +13,7 @@
             v-for="(option, index) in form.optionList"
             :key="option.ID"
           >
-            <span>{{ optionName[index + 1] }}</span>
+            <span>{{ optionName[index + 1] + '. ' }}</span>
             <span>{{ option.content }}</span>
           </div>
         </div>
@@ -37,12 +37,12 @@ const formId = ref(route.params.id);
 const form = ref({});
 const loading = ref(true);
 const optionName = {
-  1: "A. ",
-  2: "B. ",
-  3: "C. ",
-  4: "D. ",
-  5: "E. ",
-  6: "F. ",
+  1: "A",
+  2: "B",
+  3: "C",
+  4: "D",
+  5: "E",
+  6: "F",
 };
 
 // 获取表单数据
@@ -66,9 +66,31 @@ const returnToPreviousPage = () => {
 const submit = async (answerCh) => {
   console.log("提交答案:", answerCh);
 
+  const type = form.value.type;
+
+  alert(type);
+
+  // 如果是单选题
+  if (type === 1) {
+    // 如果答案不是A, B, C...
+    if (!optionName[1].includes(answerCh)) {
+      alert("请输入对应选项，如 A, B, C...");
+      return;
+    }
+  }
+
+  // 如果是多选题
+  if (type === 2) {
+    // 如果答案不是A, B, C...
+    if (!answerCh.split("").every((ch) => optionName[1].includes(ch))) {
+      alert("请输入对应选项，如 A, B, C...");
+      return;
+    }
+  }
+
   // 找到answerCh对应index的选项
   const option = form.value.optionList.find(
-    (item, index) => optionName[index + 1] === answerCh + ". "
+    (item, index) => optionName[index + 1] === answerCh
   );
 
   // 如果找不到对应选项

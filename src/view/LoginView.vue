@@ -59,7 +59,7 @@ const login = async () => {
   if (response.data && response.data.token) {
     // 保存认证信息
     localStorage.setItem("token", response.data.token);
-    localStorage.setItem("role", JSON.stringify(response.data.role));
+    localStorage.setItem("role", response.data.role);
   } else {
     errorMsg.value = "登录失败，请检查响应数据";
   }

@@ -24,7 +24,9 @@
           <button @click="viewDetail(form.ID)" class="view-btn">
             查看详情
           </button>
-          <button @click="viewChart(form.ID)" class="chart-btn">查看图表</button>
+          <button @click="viewChart(form.ID)" class="chart-btn">
+            查看图表
+          </button>
           <button @click="deletePoll(form.ID)" class="delete-btn">删除</button>
         </div>
       </div>
@@ -47,7 +49,7 @@ const optionName = {
   4: "D. ",
   5: "E. ",
   6: "F. ",
-}
+};
 
 // 获取所有表单数据
 const fetchForms = async () => {
@@ -83,7 +85,7 @@ const deletePoll = async (id) => {
   if (confirm("确定要删除这个投票吗？")) {
     try {
       console.log("删除表单:", id);
-      
+
       await deletePollDataById(id);
 
       // 删除成功后重新加载数据
@@ -94,18 +96,11 @@ const deletePoll = async (id) => {
   }
 };
 
-
 // 组件挂载时获取数据
 onMounted(() => {
-  const role = localStorage.getItem("role");
-  if (role !== "admin") {
-    alert("您无权访问该页面");
-    router.push("/");
-  }
   fetchForms();
 });
 </script>
 
 <style scoped>
-
 </style>
