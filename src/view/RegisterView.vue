@@ -21,6 +21,7 @@
       <button @click="login" :disabled="isLoading">
         {{ isLoading ? "注册中..." : "注册" }}
       </button>
+      <button @click="goToLogin">去登录</button>
     </div>
   </template>
   
@@ -53,6 +54,7 @@
     })
     
     // 处理注册成功
+    confirm("注册成功");
     console.log("注册成功:", response.data);
     if (response.data && response.data.token) {
       // 保存认证信息
@@ -63,12 +65,16 @@
     }
   
     isLoading.value = false;
-    role = JSON.parse(localStorage.getItem("role"));
-    if (role === "admin") {
+    const authRole = JSON.parse(localStorage.getItem("role"));
+    if (authRole === "admin") {
       router.push("/admin");
     } else {
       router.push("/");
     }
+  };
+
+  const goToLogin = () => {
+    router.push("/login");
   };
   </script>
   

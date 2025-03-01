@@ -79,7 +79,7 @@
 </template>
   
   <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { savePollData, deletePollDataById } from "../api/form";
 
@@ -191,6 +191,14 @@ const returnToAdmin = () => {
     router.push("/admin");
   }
 };
+
+onMounted(() => {
+  const role = localStorage.getItem("role");
+  if (role !== "admin") {
+    alert("您无权访问该页面");
+    router.push("/");
+  }
+});
 
 </script>
   

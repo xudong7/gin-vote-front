@@ -21,6 +21,7 @@
     <button @click="login" :disabled="isLoading">
       {{ isLoading ? "登录中..." : "登录" }}
     </button>
+    <button @click="goToRegister">去注册</button>
   </div>
 </template>
 
@@ -53,6 +54,7 @@ const login = async () => {
   })
 
   // 处理登录成功
+  confirm("登录成功");
   console.log("登录成功:", response.data);
   if (response.data && response.data.token) {
     // 保存认证信息
@@ -69,6 +71,10 @@ const login = async () => {
   } else {
     router.push("/");
   }
+};
+
+const goToRegister = () => {
+  router.push("/register");
 };
 </script>
 

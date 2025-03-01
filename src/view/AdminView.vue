@@ -94,8 +94,14 @@ const deletePoll = async (id) => {
   }
 };
 
+
 // 组件挂载时获取数据
 onMounted(() => {
+  const role = localStorage.getItem("role");
+  if (role !== "admin") {
+    alert("您无权访问该页面");
+    router.push("/");
+  }
   fetchForms();
 });
 </script>

@@ -71,6 +71,12 @@ const submit = async (answerCh) => {
     (item, index) => optionName[index + 1] === answerCh + ". "
   );
 
+  // 如果找不到对应选项
+  if (!option) {
+    alert("请输入对应选项，如 A, B, C...");
+    return;
+  }
+
   console.log("选项:", option);
   // 修改选项的投票数
   option.votes += 1;

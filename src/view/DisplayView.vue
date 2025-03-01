@@ -252,7 +252,13 @@ const exportData = () => {
   document.body.removeChild(link);
 };
 
+// 监控role，如果不是admin则跳转到首页
 onMounted(async () => {
+  const role = localStorage.getItem("role");
+  if (role !== "admin") {
+    alert("您无权访问该页面");
+    router.push("/");
+  }
   await fetchPollData();
   // 数据加载完成后初始化图表
   setTimeout(() => {
