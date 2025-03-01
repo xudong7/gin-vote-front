@@ -9,7 +9,7 @@
       <div v-else-if="forms.length === 0" class="no-data">暂无投票数据</div>
       <div class="poll-item" v-for="form in forms" :key="form.ID">
         <h2>{{ form.title }}</h2>
-        <p>类型: {{ form.type === 1 ? "单选" : "多选" }}</p>
+        <p>类型: {{ pollTypes[form.type] }}</p>
         <div class="poll-options">
           <div
             class="option"
@@ -49,6 +49,11 @@ const optionName = {
   4: "D. ",
   5: "E. ",
   6: "F. ",
+};
+const pollTypes = {
+  1: "单选",
+  2: "二分选项",
+  3: "多选",
 };
 
 // 获取所有表单数据

@@ -13,7 +13,7 @@
             v-for="(option, index) in form.optionList"
             :key="option.ID"
           >
-            <span>{{ optionName[index + 1] + '. ' }}</span>
+            <span>{{ optionName[index + 1] + ". " }}</span>
             <span>{{ option.content }}</span>
           </div>
         </div>
@@ -44,6 +44,11 @@ const optionName = {
   5: "E",
   6: "F",
 };
+const pollTypes = {
+  1: "单选",
+  2: "二分选项",
+  3: "多选",
+};
 
 // 获取表单数据
 const fetchForm = async () => {
@@ -70,22 +75,40 @@ const submit = async (answerCh) => {
 
   alert(type);
 
-  // 如果是单选题
-  if (type === 1) {
-    // 如果答案不是A, B, C...
-    if (!optionName[1].includes(answerCh)) {
-      alert("请输入对应选项，如 A, B, C...");
-      return;
-    }
-  }
+  if (type === 3) // 多选
+  {
+    // 将字母间的空格去掉，如 "A B C" => "ABC"
+    const answer_no_space = answerCh.replace(/\s+/g, "");
 
-  // 如果是多选题
-  if (type === 2) {
-    // 如果答案不是A, B, C...
-    if (!answerCh.split("").every((ch) => optionName[1].includes(ch))) {
-      alert("请输入对应选项，如 A, B, C...");
-      return;
+    // 将["ABC"]分拆成["A", "B", "C"]
+    const answers = answer_no_space.split("");
+
+    // 将答案分拆出来
+    for (let i = 0; i < answers.length; i++) {
+      const answer = answers[i];
+      console.log(i, " 答案: ", answer);
+      // 找到answerCh对应index的选项
+      const option = form.value.optionList.find(
+        (item, index) => optionName[index + 1] === answer
+      );
+      // 如果找不到对应选项
+      if (!option) {
+        alert("请输入正确选项，如 ABC");
+        return;
+      }
+      console.log("选项:", option);
+      // 修改选项的投票数
+      option.votes += 1;
+      form.value.optionList = form.value.optionList.map((item) =>
+        item.ID === option.ID ? option : item
+      );
     }
+
+    await updatePollData(form.value.ID, form.value);
+
+    returnToPreviousPage();
+
+    return;
   }
 
   // 找到answerCh对应index的选项

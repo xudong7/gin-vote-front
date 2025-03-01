@@ -8,7 +8,7 @@
       <div v-else-if="forms.length === 0" class="no-data">暂无投票数据</div>
       <div class="poll-item" v-for="form in forms" :key="form.id">
         <h2>{{ form.title }}</h2>
-        <p>类型: {{ form.type === 1 ? "单选" : "多选" }}</p>
+        <p>类型: {{ pollTypes[form.type] }}</p>
         <div class="actions">
           <button @click="viewDetail(form.ID)" class="view-btn">
             查看详情
@@ -28,6 +28,11 @@ import { getPollData } from "../api/form";
 const router = useRouter();
 const forms = ref([]);
 const loading = ref(true);
+const pollTypes = {
+  1: "单选",
+  2: "二分选项",
+  3: "多选",
+};
 
 // 获取所有表单数据
 const fetchForms = async () => {
