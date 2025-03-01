@@ -8,6 +8,7 @@
       <div v-if="loading" class="loading">加载中...</div>
       <div v-else>
         <div class="poll-options">
+          <div class="option-type">类型: {{ pollTypes[form.type] }}</div>
           <div
             class="option"
             v-for="(option, index) in form.optionList"
