@@ -13,7 +13,6 @@
           <button @click="viewDetail(form.ID)" class="view-btn">
             查看详情
           </button>
-          <button @click="deletePoll(form.id)" class="delete-btn">删除</button>
         </div>
       </div>
     </div>
@@ -50,28 +49,9 @@ const fetchForms = async () => {
   }
 };
 
-// 创建新表单
-const createNewPoll = () => {
-  router.push("/admin/new");
-};
-
 // 查看表单详情
 const viewDetail = (id) => {
   router.push(`/form/${id}`);
-};
-
-// 删除表单
-const deletePoll = async (id) => {
-  if (confirm("确定要删除这个投票吗？")) {
-    try {
-      console.log("删除表单:", id);
-      // await deleteForm(id);
-      // 删除成功后重新加载数据
-      fetchForms();
-    } catch (error) {
-      console.error("删除失败:", error);
-    }
-  }
 };
 
 // 组件挂载时获取数据
