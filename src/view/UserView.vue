@@ -6,7 +6,7 @@
     <div class="poll-list">
       <div v-if="loading" class="loading">加载中...</div>
       <div v-else-if="forms.length === 0" class="no-data">暂无投票数据</div>
-      <div class="poll-item" v-for="form in forms" :key="form.id">
+      <div class="poll-item" v-for="form in forms" :key="form.ID">
         <h2>{{ form.title }}</h2>
         <p>类型: {{ pollTypes[form.type] }}</p>
         <div class="actions">
@@ -23,9 +23,11 @@
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { getPollData } from "../api/form";
+import { getUserById } from "../api/user";
 
 const router = useRouter();
 const forms = ref([]);
+const user = ref({});
 const loading = ref(true);
 const pollTypes = {
   1: "单选",
@@ -37,11 +39,20 @@ const pollTypes = {
 const fetchForms = async () => {
   try {
     loading.value = true;
+
+    const userId = localStorage.getItem("userId");
+    const user_res = await getUserById(userId);
+    user.value = user_res.data;
+
     const response = await getPollData();
     forms.value = response.data;
+
     // 筛选出启用的表单
     forms.value = forms.value.filter((form) => form.status === 1);  
-    console.log("获取到的表单数据:", forms.value);
+    
+    // 筛选出未完成的表单
+    const formList = user.value.form_list;
+    forms.value = forms.value.filter((form) => !formList.includes(form.ID));
   } catch (error) {
     console.error("获取表单数据失败:", error);
   } finally {
