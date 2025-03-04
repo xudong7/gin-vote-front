@@ -40,7 +40,7 @@ const fetchForms = async () => {
     const response = await getPollData();
     forms.value = response.data;
     // 筛选出启用的表单
-    forms.value = forms.value.filter((form) => form.status === 1);
+    forms.value = forms.value.filter((form) => form.status === 1);  
     console.log("获取到的表单数据:", forms.value);
   } catch (error) {
     console.error("获取表单数据失败:", error);

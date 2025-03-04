@@ -60,6 +60,7 @@ const login = async () => {
     // 保存认证信息
     localStorage.setItem("token", response.data.token);
     localStorage.setItem("role", response.data.role);
+    localStorage.setItem("userId", response.data.userId)
   } else {
     errorMsg.value = "登录失败，请检查响应数据";
   }

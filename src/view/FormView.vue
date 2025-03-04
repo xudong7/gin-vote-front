@@ -73,6 +73,7 @@ const submit = async (answerCh) => {
   console.log("提交答案:", answerCh);
 
   const type = form.value.type;
+  const userId = localStorage.getItem("userId");
 
   alert(type);
 
@@ -105,7 +106,7 @@ const submit = async (answerCh) => {
       );
     }
 
-    await updatePollData(form.value.ID, form.value);
+    await updatePollData(userId, form.value);
 
     returnToPreviousPage();
 
@@ -134,7 +135,7 @@ const submit = async (answerCh) => {
   console.log(form.value);
 
   // 提交数据
-  await updatePollData(form.value.ID, form.value);
+  await updatePollData(userId, form.value);
 
   returnToPreviousPage();
 };

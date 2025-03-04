@@ -53,9 +53,9 @@ export function deletePollDataById(id) {
  * @param
  * @returns {*}
 */
-export function updatePollData(id, data) {
+export function updatePollData(userId, data) {
   return request({
-    url: `/forms/${id}`,
+    url: `/forms/${userId}`,
     method: "put",
     data,
   });
